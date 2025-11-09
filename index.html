@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Pacifico&family=Sacramento&display=swap" rel="stylesheet">
   <style>
@@ -9,106 +10,15 @@
       text-decoration: underline;
       color: black;
     }
-    body {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .canvas-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-top: 1em;
-      overflow: hidden;
-    }
-    canvas {
-      display: block;
-      border-top: 1px solid black;
-      width: 100%;
-      height: 100%;
-    }
   </style>
   <title>Reliauk's Encyclopedia</title>
 </head>
 
-<body>
-  <center>
-    <div class="title"><h1>Reliauk's Encyclopedia</h1></div>
-  </center>
-  <center>
-    <a href="solution-set.html">套题题解</a>
-    |
-    <a href="knowledge-system.html">知识体系</a>
-  </center>
-  <div class="canvas-container">
-    <canvas id="drawingCanvas"></canvas>
-  </div>
-</body>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const canvas = document.getElementById('drawingCanvas');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() {
-      const container = canvas.parentElement;
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
-      ctx.lineJoin = 'round';
-      ctx.lineCap = 'round';
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = '#000000';
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    let isDrawing = false;
-    let lastX = 0;
-    let lastY = 0;
-    function startDrawing(e) {
-      isDrawing = true;
-      [lastX, lastY] = getCoordinates(e);
-    }
-    function draw(e) {
-      if (!isDrawing) return;
-      const [currentX, currentY] = getCoordinates(e);
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(currentX, currentY);
-      ctx.stroke();
-      [lastX, lastY] = [currentX, currentY];
-    }
-    function stopDrawing() {
-      isDrawing = false;
-    }
-    function getCoordinates(e) {
-      let x, y;
-      if (e.type.includes('touch')) {
-        const rect = canvas.getBoundingClientRect();
-        x = e.touches[0].clientX - rect.left;
-        y = e.touches[0].clientY - rect.top;
-      } else {
-        const rect = canvas.getBoundingClientRect();
-        x = e.clientX - rect.left;
-        y = e.clientY - rect.top;
-      }
-      return [x, y];
-    }
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseout', stopDrawing);
-    canvas.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      startDrawing(e);
-    });
-    canvas.addEventListener('touchmove', function(e) {
-      e.preventDefault();
-      draw(e);
-    });
-    canvas.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      stopDrawing();
-    });
-  });
-</script>
+<center>
+  <div class="title"><h1>Reliauk's Encyclopedia</h1></div>
+</center>
+<center>
+  <a href="solution-set.html">套题题解</a>
+  |
+  <a href="knowledge-system.html">知识体系</a>
+</center>
