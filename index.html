@@ -42,12 +42,12 @@
 ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝
 </div>
 
+<div class="subtitle"><i class="fa-solid fa-pencil fa-fw" style="color: #000000;"></i>  <a href="knowledge.html">Drafts</a>                          D</div>
 <div class="subtitle"><i class="fa-solid fa-book fa-fw" style="color: #000000;"></i>  <a href="knowledge.html">Knowledge</a>                       K</div>
-<div class="subtitle"><i class="fa-solid fa-magnifying-glass fa-fw" style="color: #000000;"></i>  <a href="lookup.html">Lookup</a>                          L</div>
 <div class="subtitle"><i class="fa-solid fa-box-archive fa-fw" style="color: #000000;"></i>  <a href="solutions.html">Solutions</a>                       S</div>
 
 <script>
+  document.addEventListener('keydown', function(event) { if (event.key.toLowerCase() === 'd') { window.location.href = 'drafts.html'; } });
   document.addEventListener('keydown', function(event) { if (event.key.toLowerCase() === 'k') { window.location.href = 'knowledge.html'; } });
-  document.addEventListener('keydown', function(event) { if (event.key.toLowerCase() === 'l') { window.location.href = 'lookup.html'; } });
   document.addEventListener('keydown', function(event) { if (event.key.toLowerCase() === 's') { window.location.href = 'solutions.html'; } });
 </script>
