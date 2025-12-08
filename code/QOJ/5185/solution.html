@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+  <title>Reliauk</title>
+  <style>
+    @font-face {
+      font-family: 'JetBrains Mono';
+      src: url('fonts/jbm.woff2') format('woff2'),
+            url('fonts/jbm.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    .title {
+      font-family: "Jetbrains Mono";
+      text-align: center;
+      font-size: x-large;
+      color: #257ce5;
+      white-space: pre;
+    }
+  </style>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async 
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+</head>
+
+<div class="title">QOJ 5185 / Chika Wants to Cheat</div>
+
+<h3>简要题意</h3>
+
+<ul>
+  <li><b>这是一道通信题。</b></li>
+  <li>有一个 $3\times 3$ 点阵。可以在其上连接一些线段，需要保证每条线段除了端点不能经过别的点。</li>
+  <li>现在需要利用连接出的图案传递一个正整数 $n$。但在传输过程中，图案可能会被旋转 $90^\circ$ 任意次。</li>
+  <li>$n \leq 67000000$。</li>
+</ul>
+
+<h3>初步分析</h3>
+
+<ul>
+  <li>一共有 $28$ 条合法的线段，由 $7$ 组、每组 $4$ 条在旋转意义下等价的线段组成。</li>
+  <li>如果没有扰动操作，用每条线段是否存在即可传输 28bit 的信息。因此难点在于消除旋转的影响。</li>
+</ul>
+
+<h3>做法一</h3>
+
+<ul>
+  <li>为 28 条线段指定字典序，并只保留每个旋转等价类中的最小表示。</li>
+  <li>预处理出所有这样的最小表示，一共有 $2^{26}\geq\max n$ 个，传输其中的第 $n$ 小即可。</li>
+  <li>时间复杂度瓶颈在于预处理，比较劣但也能在时限内通过。</li>
+</ul>
+
+<h3>做法二</h3>
+
+<ul>
+  <li>考虑 $\max n$ 并没有卡到理论上界 $2^{26}$。这启示我们手动构造尽可能多的互不等价图案亦有可能通过。</li>
+  <li>一个初步的想法是，使用其中一组作为指示旋转次数的工具：
+    <ul>
+      <li>一开始固定选择该组的前 $c(1\leq c\leq 3)$ 条线段，即可通过传输后该组的形态确定旋转次数。</li>
+      <li>那么剩下 $6$ 组的每条均可有效传输信息，可以传递的图案种数为 $3\times 2^{24}$。</li>
+    </ul>
+  </li>
+  <li>这离题目需要的 $\max n$ 还差一点。考虑进一步改进：
+    <ul>
+      <li>考虑让指示旋转次数的组不固定。即，可以允许任意 $i$ 为指示组，而组 $[0, i)$ 则任意旋转都不成为指示组。</li>
+        <li>这种情况下 $[0, i)$ 的每一组有 $4$ 种可能性（$\texttt{0000}, \texttt{0101}, \texttt{1010}, \texttt{1111}$）。 </li>
+        <li>因此图案种数为 $\sum_{i=0}^6 3\times 2^{24-2i} = 67104768 \geq \max n$。</li>
+    </ul>
+  </li>
+  <li>从而本题得到解决。时间复杂度 $\mathcal O(q \log n)$，其中 $q$ 是单组数据内的通信次数。</li>
+</ul>
+
+<h3>代码</h3>
+
+<iframe src="main.cpp" width="100%" height="500em"></iframe>
