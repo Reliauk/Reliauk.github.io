@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+  <title>Reliauk</title>
+  <style>
+    @font-face {
+      font-family: 'JetBrains Mono';
+      src: url('fonts/jbm.woff2') format('woff2'),
+            url('fonts/jbm.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    .title {
+      font-family: "Jetbrains Mono";
+      text-align: center;
+      font-size: x-large;
+      color: #257ce5;
+      white-space: pre;
+    }
+  </style>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script id="MathJax-script" async 
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+</head>
+
+<div class="title">QOJ 9030 / 泡泡糖</div>
+
+<h3>简要题意</h3>
+
+<ul>
+  <li>有一张 $m$ 行 $n$ 列网格图，每条边有边权。</li>
+  <li>现在要在每个点 $(i, j)$ 上填入一个在 $[a_{i, j}, b_{i, j}]$ 的数字。</li>
+  <li>最小化 每条边的边权乘其两端点数字之差 的和。</li>
+  <li>$n \leq 5\times 10^4$，$m\leq 5$。</li>
+</ul>
+
+<h3>研究弱化版本 $0 \leq a_{i, j} \leq b_{i, j} \leq 1$</h3>
+
+<ul>
+  <li>本题中最特殊的限制即 $m \leq 5$，可以想到通过轮廓线 dp 来利用这个性质。</li>
+  <li>按一列一列的顺序扫描点，那么只有在该顺序中位置距离不超过 $m$ 的点对是有贡献的。</li>
+  <li>设 $f_{i, s}$ 表示扫描到第 $i$ 个点，第 $(i - m, i]$ 个点的状态是 $s$，最小总贡献是多少。时间复杂度 $\mathcal O(nm2^m)$。
+</ul>
+
+<h3>把做法拓展到原题</h3>
+
+<ul>
+  <li>一个很直观的想法是：枚举分界 $v$ 并把填的数字 01 化，即可变成上面的弱化版本。</li>
+  <li>事实上，直接对每个分界独立计算最小贡献并相加，得到的答案是正确的。
+    <ul>
+      <li>为了证明这样做是正确的，只需要说明每对相邻的分界填出的方案都没有矛盾。</li>
+      <li>即，对每个 $v$ 都满足 $v + 1$ 的某最优解填 $0$ 的点集包含 $v$ 的某最优解。</li>
+      <li>任取 $v$ 和 $v + 1$ 的最优解，容易发现调整不满足上述命题的点，对贡献是不劣的。</li>
+    </ul>
+  </li>
+  <li>对 $a_{i, j}, b_{i, j}$ 离散化，那么只需要枚举 $\mathcal O(nm)$ 个分界并跑弱化版。时间复杂度 $\mathcal O(n^2m^22^m)$。</li>
+</ul>
+
+<h3>使用整体二分控制复杂度</h3>
+
+<ul>
+  <li>上述做法其实是存在浪费的：我们每次都把所有的点和 $v$ 的大小关系重新确定了一次。考虑通过整体二分来避免这种浪费。</li>
+  <li>设计分治过程 $(S, \ell, r)$ 表示需要确定点集 $S$ 填入的数字，已知恰好 $S$ 里的点填入的数在 $[\ell, r]$，且知道其他点是 $<\ell$ 还是 $>r$。</li>
+  <li>令 $m = \lfloor \frac{\ell + r}2 \rfloor$，以 $m$ 为分界对点集 $S$ 跑弱化版算法，即可递归到问题 $(T, \ell, m)$ 和 $(S - T, m + 1, r)$。
+    <ul>
+      <li>注意这里有一些细节：在 dp 时需要考虑和 $S$ 中某个点产生贡献的另一个点不在 $S$ 中的情形。</li>
+      <li>因为不在 $S$ 中的点和 $m$ 的大小关系是已知的，所以只需要简单特殊计算即可，复杂度仍为 $\mathcal O(2^m|S|)$。</li>
+    </ul>
+  </li>
+  <li>时间复杂度为 $\mathcal O(2^m\sum |S|)$。每个点在整体二分的过程中对 $\sum |S|$ 的贡献为 $\log nm$，故总复杂度 $\mathcal O(2^m nm \log nm)$。</li>
+</ul>
+
+<h3>代码</h3>
+
+<p>（该题额外保证了 $b_{i, j} \leq 10^4$，因此代码中没有离散化部分）</p>
+
+<iframe src="main.cpp" width="100%" height="500em"></iframe>
