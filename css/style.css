@@ -1,0 +1,9 @@
+body {
+  font-family: "STIX Two Text", "LXGW WenKai TC", serif;
+}
+
+code,
+pre {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9em;
+}
