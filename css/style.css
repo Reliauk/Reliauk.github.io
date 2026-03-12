@@ -11,7 +11,7 @@ pre {
 .lyric {
   text-align: center;
   font-size: xx-large;
-  background: linear-gradient(90deg, green, limegreen, lime);
+  background: radial-gradient(circle at center, green, limegreen, lime);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
