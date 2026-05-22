@@ -2,6 +2,8 @@
 icon: lucide/rocket
 ---
 
+Test 中文。
+
 # Get started
 
 For full documentation visit [zensical.org](https://zensical.org/docs/).
