@@ -2,5 +2,4 @@
 icon: lucide/compass
 title: ""
 ---
-
-$$test \LaTeX$$
+![](assets/index.png)
