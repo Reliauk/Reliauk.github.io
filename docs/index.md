@@ -1,6 +1,5 @@
 ---
-icon: lucide/compass
-title: ""
+title: Reliauk
 ---
 
 ![](assets/index.png)
