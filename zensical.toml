@@ -8,9 +8,9 @@ site_author = "Reliauk"
 
 [project.theme]
 
-language = "zh"
-logo = "/assets/logo.png"
-favicon = "/assets/logo.png"
+language = "en"
+logo = "assets/logo.png"
+favicon = "assets/logo.png"
 
 features = [
   "navigation.instant",           # 即时导航（推荐）
@@ -32,3 +32,44 @@ scheme = "default"
 primary = "green"    # 主色调
 accent = "green"     # 强调色
 
+# ===== 基础扩展 =====
+[project.markdown_extensions.abbr]          # 缩写支持
+[project.markdown_extensions.admonition]    # 警告框（!!! note）
+[project.markdown_extensions.attr_list]     # 属性列表
+[project.markdown_extensions.def_list]      # 定义列表
+[project.markdown_extensions.footnotes]     # 脚注支持
+[project.markdown_extensions.md_in_html]    # HTML 中使用 Markdown
+[project.markdown_extensions.toc]           # 目录生成
+toc_depth = 3                               # 目录深度
+permalink = true                            # 标题锚点链接
+
+# ===== 数学公式支持 =====
+[project.markdown_extensions."pymdownx.arithmatex"]
+generic = true  # 使用 MathJax 渲染数学公式
+
+# ===== 文本增强 =====
+[project.markdown_extensions."pymdownx.betterem"]
+smart_enable = "all"  # 智能斜体/粗体
+
+[project.markdown_extensions."pymdownx.caret"]      # 上标 (^text^)
+[project.markdown_extensions."pymdownx.mark"]      # 标记文本 (==text==)
+[project.markdown_extensions."pymdownx.tilde"]     # 删除线 (~~text~~)
+
+# ===== 交互元素 =====
+[project.markdown_extensions."pymdownx.details"]   # 可折叠详情框
+[project.markdown_extensions."pymdownx.tabbed"]    # 标签页
+alternate_style = true
+[project.markdown_extensions."pymdownx.tasklist"]  # 任务列表
+custom_checkbox = true
+
+# ===== 代码相关 =====
+[project.markdown_extensions."pymdownx.highlight"]     # 代码高亮
+[project.markdown_extensions."pymdownx.inlinehilite"] # 行内代码高亮
+[project.markdown_extensions."pymdownx.superfences"]  # 代码块和 Mermaid
+
+# ===== 其他功能 =====
+[project.markdown_extensions."pymdownx.keys"]         # 键盘按键 (++ctrl+alt+del++)
+[project.markdown_extensions."pymdownx.smartsymbols"]  # 智能符号转换
+[project.markdown_extensions."pymdownx.emoji"]        # Emoji 表情
+emoji_generator = "zensical.extensions.emoji.to_svg"
+emoji_index = "zensical.extensions.emoji.twemoji"
