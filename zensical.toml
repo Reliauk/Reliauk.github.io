@@ -7,9 +7,9 @@ site_description = "Reliauk's Blog"
 site_author = "Reliauk"
 
 nav = [
-  {"主页" = "index.md"},
-  {"算法竞赛" = [
-    {"组合计数加训" = "cp/counting.md"},
+  {"Homepage" = "index.md"},
+  {"Solution Archive" = [
+    {"The 1st Universal Cup" = "train/1st-ucup.md"},
   ]},
 ]
 
