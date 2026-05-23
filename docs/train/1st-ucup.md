@@ -7,7 +7,7 @@ title: The 1st Universal Cup
 
 - A. Stop, Yesterday Please No More
 
-!!! tip "题意"
+!!! info "题意"
     - 给定一张 $n \times m$ 的网格，某个格子上有一个洞，其余格子都是有一只袋鼠的空地。
     - 所有袋鼠会同时按照 `UDLR` 操作移动，踩到洞或掉出网格的袋鼠会消失。
     - 给定一个操作序列 $S$，已知执行后还剩 $k$ 只袋鼠，求一开始有多少位置可能是洞。
@@ -21,8 +21,12 @@ title: The 1st Universal Cup
 
 - B. Ropeway
 
-!!! tip "题意"
+!!! info "题意"
     - 给定序列 $[a_1, a_2, \ldots, a_n]$ 和常数 $k$。有 $q$ 次 **临时** 的单点修改，每次修改后：
         - 选择一个子序列 $[a_{p_1}, a_{p_2}, \ldots, a_{p_m}]$，使得 $p_i - p_{i-1} \leq k$（令 $p_0=0,p_{m+1}=n+1$）。
         - 最小化 $a_{p_i}$ 之和。输出这个最小值。
     - $1 \leq n \leq 5\times 10^5$，$1 \leq k, q \leq 3\times 10^3$。
+??? tip "题解"
+    - 对于没有修改的情况，可以单调队列优化 dp 做到 $\mathcal O(n)$。
+    - 询问时，只需要讨论修改的位置是否被包含在最优方案中，即可得到答案式。计算的复杂度是 $\mathcal O(k)$。
+    - 预处理正反 dp，总时间复杂度 $\mathcal O(n + qk)$。
