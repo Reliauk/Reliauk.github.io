@@ -1,11 +1,9 @@
 ---
 icon: lucide/trophy
-title: The 1st Universal Cup
+title: "The 1st Universal Cup. Stage 0: Nanjing"
 ---
 
-## Stage 0: Nanjing
-
-### A. Stop, Yesterday Please No More
+## A. Stop, Yesterday Please No More
 
 !!! info "题意"
     - 给定一张 $n \times m$ 的网格，某个格子上有一个洞，其余格子都是有一只袋鼠的空地。
@@ -19,7 +17,7 @@ title: The 1st Universal Cup
     - 引入洞的影响后，相当于有一条固定的路径形状，问有多少起点能让其与该子矩形的交恰好为某定值。
     - 直接二维差分即可求出每个起点出发后与子矩形的交。时间复杂度 $\mathcal O(nm + |S|)$。
 
-### B. Ropeway
+## B. Ropeway
 
 !!! info "题意"
     - 给定序列 $[a_1, a_2, \ldots, a_n]$ 和常数 $k$。有 $q$ 次 **临时** 的单点修改，每次修改后：
@@ -31,7 +29,7 @@ title: The 1st Universal Cup
     - 询问时，只需要讨论修改的位置是否被包含在最优方案中，即可得到答案式。计算的复杂度是 $\mathcal O(k)$。
     - 预处理正反 dp，总时间复杂度 $\mathcal O(n + qk)$。
 
-### C. Fabulous Fungus Frenzy
+## C. Fabulous Fungus Frenzy
 
 !!! info "题意"
     - 给定两个 $n \times m$ 的矩阵 $A$ 和 $B$，以及 $k$ 个模式矩阵。有三种可执行操作：
@@ -46,7 +44,7 @@ title: The 1st Universal Cup
     - 那么贪心地不断使用可用的模式矩阵，直到全体元素都变成通配符即可（把 $B$ 也视为模式矩阵）。
     - 注意到每个模式矩阵第一次可用后，就可以一个一个把所有其含有的字符全变成通配符。利用这一点进行一些精细分析，可知直接这样贪心是满足操作次数限制的，时间复杂度也可以接受。
 
-### D. Chat Program
+## D. Chat Program
 
 !!!info "题意"
     - 给定序列 $[a_1, a_2, \ldots, a_n]$ 和 $k, m, c, d$。可以进行如下操作至多一次：
@@ -59,7 +57,7 @@ title: The 1st Universal Cup
     - 显然每个元素有贡献的情况对应的首项位置是个区间。算出两端点再差分前缀和即可。
     - 时间复杂度 $\mathcal O(n \log V)$。
 
-### E. Color the Tree
+## E. Color the Tree
 
 !!!info "题意"
     - 给定一棵 $n$ 个点的有根树，以及序列 $[a_0, a_1, \ldots, a_{n-1}]$。

@@ -9,7 +9,11 @@ site_author = "Reliauk"
 nav = [
   {"Homepage" = "index.md"},
   {"Solution Archive" = [
-    {"The 1st Universal Cup" = "train/1st-ucup.md"},
+    {"Universal Cup" = [
+      {"The 1st Universal Cup" = [
+        {"Nanjing" = "train/1st-ucup/nanjing.md"},
+      ]},
+    ]},
   ]},
 ]
 
@@ -21,6 +25,8 @@ extra_javascript = [
 copyright = ""
 
 [project.theme]
+
+variant = "modern"
 
 language = "en"
 logo = "assets/logo.png"
