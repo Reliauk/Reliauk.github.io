@@ -11,7 +11,7 @@ nav = [
   {"Solution Archive" = [
     {"Universal Cup" = [
       {"The 1st Universal Cup" = [
-        {"Nanjing" = "train/1st-ucup/nanjing.md"},
+        {"Nanjing" = "train/ucup/1st-ucup/nanjing.md"},
       ]},
     ]},
   ]},
