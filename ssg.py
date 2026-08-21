@@ -534,11 +534,12 @@ def deploy():
     source_branch = subprocess.run(["git", "branch", "--show-current"], cwd=ROOT, check=True, text=True, stdout=subprocess.PIPE).stdout.strip()
     if not source_branch:
         raise RuntimeError("deploy cannot run from a detached HEAD; switch to the primary branch first")
-    status = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT, check=True, text=True, stdout=subprocess.PIPE).stdout
-    if status:
-        raise RuntimeError("deploy requires a clean working tree; commit or stash changes before deploying")
 
-    # Publish source first so the deployed site always has a matching revision.
+    # Commit and publish source first so the deployed site has a matching revision.
+    subprocess.run(["git", "add", "-A", "--", ".", ":(exclude)public"], cwd=ROOT, check=True)
+    source_changes = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode
+    if source_changes:
+        subprocess.run(["git", "commit", "-m", "Update site source"], cwd=ROOT, check=True)
     subprocess.run(["git", "push", "origin", source_branch], cwd=ROOT, check=True)
     build(interactive_passwords=False)
     pages_branch = os.environ.get("GH_PAGES_BRANCH", "gh-pages")
