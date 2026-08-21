@@ -1,0 +1,4 @@
+public/
+.ssg-cache/
+__pycache__/
+*.source.md

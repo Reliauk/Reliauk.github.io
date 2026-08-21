@@ -1,0 +1,10 @@
+{
+  "favicon": "/assets/avatar.png",
+  "series": {
+    "cp-train": {
+      "title": "CP Training",
+      "description": "算法竞赛训练记录",
+      "order": 1
+    }
+  }
+}
