@@ -512,8 +512,44 @@ def build(interactive_passwords: bool = False) -> int:
 
 def preview(port: int, host: str):
     build(interactive_passwords=True)
-    os.chdir(PUBLIC)
-    server = ThreadingHTTPServer((host, port), SimpleHTTPRequestHandler)
+    handler = lambda *args, **kwargs: SimpleHTTPRequestHandler(*args, directory=str(PUBLIC), **kwargs)
+    server = ThreadingHTTPServer((host, port), handler)
+    stop_watching = threading.Event()
+
+    def source_snapshot():
+        snapshot = {}
+        for directory in (CONTENT, STATIC):
+            if directory.exists():
+                for path in directory.rglob("*"):
+                    if path.is_file():
+                        try:
+                            stat = path.stat()
+                        except FileNotFoundError:
+                            continue
+                        snapshot[str(path)] = (stat.st_mtime_ns, stat.st_size)
+        if SITE_CONFIG.exists():
+            try:
+                stat = SITE_CONFIG.stat()
+            except FileNotFoundError:
+                return snapshot
+            snapshot[str(SITE_CONFIG)] = (stat.st_mtime_ns, stat.st_size)
+        return snapshot
+
+    def watch_sources():
+        previous = source_snapshot()
+        while not stop_watching.wait(0.4):
+            current = source_snapshot()
+            if current == previous:
+                continue
+            previous = current
+            print("Source change detected; rebuilding preview...")
+            try:
+                build(interactive_passwords=True)
+            except Exception as exc:
+                print(f"Preview rebuild failed: {exc}", file=sys.stderr)
+
+    watcher = threading.Thread(target=watch_sources, daemon=True)
+    watcher.start()
     local_url = f"http://127.0.0.1:{port}/"
     print(f"Preview: {local_url} (Ctrl+C to stop)")
     if host in ("0.0.0.0", "::"):
@@ -525,7 +561,10 @@ def preview(port: int, host: str):
     threading.Timer(0.4, lambda: webbrowser.open(local_url)).start()
     try: server.serve_forever()
     except KeyboardInterrupt: print("\nPreview stopped.")
-    finally: server.server_close()
+    finally:
+        stop_watching.set()
+        watcher.join(timeout=1)
+        server.server_close()
 
 
 def deploy():
