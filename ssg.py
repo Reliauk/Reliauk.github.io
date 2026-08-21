@@ -527,15 +527,25 @@ def preview(port: int, host: str):
 
 
 def deploy():
-    build(interactive_passwords=False)
     try:
         subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], cwd=ROOT, check=True, stdout=subprocess.DEVNULL)
     except (OSError, subprocess.CalledProcessError):
         raise RuntimeError("deploy must run inside a git repository with an origin remote")
-    branch = os.environ.get("GH_PAGES_BRANCH", "gh-pages")
+    source_branch = subprocess.run(["git", "branch", "--show-current"], cwd=ROOT, check=True, text=True, stdout=subprocess.PIPE).stdout.strip()
+    if not source_branch:
+        raise RuntimeError("deploy cannot run from a detached HEAD; switch to the primary branch first")
+    status = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT, check=True, text=True, stdout=subprocess.PIPE).stdout
+    if status:
+        raise RuntimeError("deploy requires a clean working tree; commit or stash changes before deploying")
+
+    # Publish source first so the deployed site always has a matching revision.
+    subprocess.run(["git", "push", "origin", source_branch], cwd=ROOT, check=True)
+    build(interactive_passwords=False)
+    pages_branch = os.environ.get("GH_PAGES_BRANCH", "gh-pages")
     subprocess.run(["git", "add", "-f", "public"], cwd=ROOT, check=True)
     subprocess.run(["git", "commit", "-m", "Build site", "--allow-empty"], cwd=ROOT, check=True)
-    subprocess.run(["git", "subtree", "push", "--prefix", "public", "origin", branch], cwd=ROOT, check=True)
+    subprocess.run(["git", "push", "origin", source_branch], cwd=ROOT, check=True)
+    subprocess.run(["git", "subtree", "push", "--prefix", "public", "origin", pages_branch], cwd=ROOT, check=True)
 
 
 def main():
