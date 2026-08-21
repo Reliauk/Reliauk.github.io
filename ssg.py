@@ -331,6 +331,7 @@ def search_chunks(text: str):
             flush()
             heading = heading_text(match.group(1))
             anchor = heading_anchor(match.group(1), counts)
+            chunks.append({"heading": heading, "anchor": anchor, "text": heading})
         elif not line.strip():
             flush()
         elif not line.startswith("---"):
@@ -501,7 +502,8 @@ def build(interactive_passwords: bool = False) -> int:
     for p in visible:
         if p["encrypted"]:
             continue
-        search_records.append({"title": p["title"], "url": p["url"], "series": series_map[p["series"]][0], "chunks": search_chunks(p["body"])})
+        chunks = [{"heading": "", "anchor": "", "text": p["title"]}] + search_chunks(p["body"])
+        search_records.append({"title": p["title"], "url": p["url"], "series": series_map[p["series"]][0], "chunks": chunks})
     (PUBLIC / "search.json").write_text(json.dumps(search_records, ensure_ascii=False), encoding="utf-8")
     (PUBLIC / ".nojekyll").touch()
     print(f"Built {len(pages)} page(s) into {PUBLIC.relative_to(ROOT)}/")
